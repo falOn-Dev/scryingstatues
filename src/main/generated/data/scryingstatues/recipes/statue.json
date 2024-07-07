@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:armor_stand"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "SES",
+    "SAS",
+    "SSS"
+  ],
+  "result": {
+    "item": "scryingstatues:statue"
+  },
+  "show_notification": true
+}

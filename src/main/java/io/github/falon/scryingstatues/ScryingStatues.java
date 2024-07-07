@@ -1,6 +1,8 @@
 package io.github.falon.scryingstatues;
 
 import io.github.falon.scryingstatues.init.ModEntities;
+import io.github.falon.scryingstatues.init.ModItemGroups;
+import io.github.falon.scryingstatues.init.ModItems;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
@@ -14,5 +16,7 @@ public class ScryingStatues implements ModInitializer {
     public void onInitialize(ModContainer mod) {
         LOGGER.info("Hello Quilt world from {}! Stay fresh!", mod.metadata().name());
 		ModEntities.initialize();
+		ModItems.initialize();
+		ModItemGroups.initialize();
     }
 }

@@ -6,7 +6,7 @@
         "version": "${version}",
         "metadata": {
             "name": "Scrying Statues",
-            "description": "Spy on your enemies with stone sculptures! Did that one just move?",
+            "description": "Spy on your enemies with stone sculptures! A vaguely magical security system.",
             "contributors": {
                 "FalOn": "Owner"
             },
