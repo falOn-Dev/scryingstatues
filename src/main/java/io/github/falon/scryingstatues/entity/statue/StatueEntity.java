@@ -78,7 +78,8 @@ public class StatueEntity extends Entity implements GeoEntity {
 		} else if (stack.getItem() instanceof ScryingMirrorItem){
 			if (this.getOwner().isPresent() &&  player.isSneaking()) {
 				stack.getOrCreateNbt().putUuid("target", this.getUuid());
-				player.sendMessage(Text.translatable("item.scryingstatues.scrying_mirror.set_message"), true);
+				player.sendMessage(Text.translatable("item.scryingstatues.scrying_mirror.set_message"), true);;
+
 				return ActionResult.SUCCESS;
 			}
 		}
@@ -104,11 +105,16 @@ public class StatueEntity extends Entity implements GeoEntity {
 		if (nbt.contains("health")) {
 			this.getDataTracker().set(HEALTH, nbt.getInt("health"));
 		}
+
+		if(nbt.contains("owner")) {
+			this.getDataTracker().set(OWNER, Optional.of(nbt.getUuid("owner")));
+		}
 	}
 
 	@Override
 	protected void writeCustomDataToNbt(NbtCompound nbt) {
 		nbt.putInt("health", this.getDataTracker().get(HEALTH));
+		this.getDataTracker().get(OWNER).ifPresent(uuid -> nbt.putUuid("owner", uuid));
 	}
 
 	@Override
