@@ -39,8 +39,8 @@ public abstract class ServerPlayerEntityMixin {
 		slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;shouldDismount()Z"))
 	)
 	private void doSomethingBeforeDismountSetCameraEntity(CallbackInfo ci) {
-		ScryingStatues.LOGGER.info("Camera Entity: {}", getCameraEntity().getDisplayName().getString());
-		ScryingStatues.LOGGER.info("Return Pose: {}", returnPose.toString());
+		ScryingStatues.Companion.getLOGGER().info("Camera Entity: {}", getCameraEntity().getDisplayName().getString());
+		ScryingStatues.Companion.getLOGGER().info("Return Pose: {}", returnPose.toString());
 		this.teleport(this.getServerWorld(), returnPose.x, returnPose.y, returnPose.z, (float) this.returnYaw, (float) this.returnPitch);
 	}
 
