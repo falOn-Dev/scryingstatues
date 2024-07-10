@@ -2,8 +2,6 @@ package io.github.falon.scryingstatues.item;
 
 import io.github.falon.scryingstatues.ScryingStatues;
 import io.github.falon.scryingstatues.entity.statue.StatueEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -26,21 +24,6 @@ public class ScryingMirrorItem extends Item {
 
 
 	@Override
-	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-//		boolean isScrying = false;
-//
-//		if(entity instanceof ServerPlayerEntity player) {
-//			isScrying = player.getCameraEntity() instanceof StatueEntity;
-//		}
-//
-//		ScryingStatues.LOGGER.info("isScrying: " + isScrying);
-//
-//		if(world.isClient())
-//
-//		super.inventoryTick(stack, world, entity, slot, selected);
-	}
-
-	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack stack = user.getStackInHand(hand);
 		NbtCompound nbt = stack.getOrCreateNbt();
@@ -50,13 +33,18 @@ public class ScryingMirrorItem extends Item {
 				nbt.remove("target");
 				user.sendMessage(Text.translatable("item.scryingstatues.scrying_mirror.clear_message"), true);
 			} else {
-				if (user instanceof ServerPlayerEntity player) {
-					UUID target = nbt.getUuid("target");
-					if (world instanceof ServerWorld serverWorld) {
-						StatueEntity targetStatue = (StatueEntity) serverWorld.getEntity(target);
-						Vec3d pose = player.getPos();
-						player.setCameraEntity(targetStatue);
-
+				if (nbt.contains("target")) {
+					if (user instanceof ServerPlayerEntity player) {
+						UUID target = nbt.getUuid("target");
+						if (world instanceof ServerWorld serverWorld) {
+							StatueEntity targetStatue = (StatueEntity) serverWorld.getEntity(target);
+							if (targetStatue.isScryable()) {
+								Vec3d pose = player.getPos();
+								player.setCameraEntity(targetStatue);
+							} else {
+								player.sendMessage(Text.translatable("item.scryingstatues.scrying_mirror.unreachable"), true);
+							}
+						}
 					}
 				}
 			}

@@ -34,6 +34,8 @@ import java.util.UUID;
 public class StatueEntity extends Entity implements GeoEntity {
 	private static final TrackedData<Integer> HEALTH = DataTracker.registerData(StatueEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private static final TrackedData<Optional<UUID>> OWNER = DataTracker.registerData(StatueEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+	private static final TrackedData<Boolean> SCRYABLE = DataTracker.registerData(StatueEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	private static final TrackedData<String> STATUE_NAME = DataTracker.registerData(StatueEntity.class, TrackedDataHandlerRegistry.STRING);
 
 	private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
@@ -57,6 +59,7 @@ public class StatueEntity extends Entity implements GeoEntity {
 	@Override
 	public ActionResult interact(PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getStackInHand(hand);
+		ScryingStatues.LOGGER.info("isScryable: {}", isScryable());
 		if (stack.getItem() instanceof ShattererItem) {
 			player.playSound(SoundEvents.BLOCK_STONE_PLACE, 1.0F, 1.0F);
 
@@ -90,6 +93,23 @@ public class StatueEntity extends Entity implements GeoEntity {
 	protected void initDataTracker() {
 		this.getDataTracker().startTracking(HEALTH, 3);
 		this.getDataTracker().startTracking(OWNER, Optional.empty());
+		this.getDataTracker().startTracking(SCRYABLE, true);
+		this.getDataTracker().startTracking(STATUE_NAME, "Statue");
+	}
+
+	public boolean isScryable() {
+		return this.getDataTracker().get(SCRYABLE);
+	}
+
+	public void setScryable(boolean scryable) {
+		this.getDataTracker().set(SCRYABLE, scryable);
+	}
+
+	@Override
+	public void tick() {
+		setScryable(this.getWorld().isAir(BlockPos.create(this.getX(), this.getY() + 1, this.getZ())));
+
+		super.tick();
 	}
 
 	public Optional<UUID> getOwner() {
@@ -98,6 +118,14 @@ public class StatueEntity extends Entity implements GeoEntity {
 
 	public void setOwner(UUID owner) {
 		this.getDataTracker().set(OWNER, Optional.of(owner));
+	}
+
+	public void setStatueName(String displayName) {
+		this.getDataTracker().set(STATUE_NAME, displayName);
+	}
+
+	public String getStatueName(){
+		return this.getDataTracker().get(STATUE_NAME);
 	}
 
 	@Override
@@ -109,12 +137,22 @@ public class StatueEntity extends Entity implements GeoEntity {
 		if(nbt.contains("owner")) {
 			this.getDataTracker().set(OWNER, Optional.of(nbt.getUuid("owner")));
 		}
+
+		if(nbt.contains("scryable")) {
+			this.getDataTracker().set(SCRYABLE, nbt.getBoolean("scryable"));
+		}
+
+		if(nbt.contains("display_name")) {
+			this.getDataTracker().set(STATUE_NAME, nbt.getString("display_name"));
+		}
 	}
 
 	@Override
 	protected void writeCustomDataToNbt(NbtCompound nbt) {
 		nbt.putInt("health", this.getDataTracker().get(HEALTH));
 		this.getDataTracker().get(OWNER).ifPresent(uuid -> nbt.putUuid("owner", uuid));
+		nbt.putBoolean("scryable", this.getDataTracker().get(SCRYABLE));
+		nbt.putString("display_name", this.getDataTracker().get(STATUE_NAME));
 	}
 
 	@Override

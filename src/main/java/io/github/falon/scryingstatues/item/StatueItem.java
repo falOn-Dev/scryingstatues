@@ -24,7 +24,7 @@ public class StatueItem extends Item {
 		ItemStack stack = player.getMainHandStack();
 
 		if (player.isSneaking()) {
-			spawnStatue(context.getWorld(), context.getBlockPos(), player, stack);
+			spawnStatue(context.getWorld(), context.getBlockPos(), player, stack, stack.getName().getString());
 			ScryingStatues.LOGGER.info("Spawning statue at {}", context.getBlockPos().toString());
 			ScryingStatues.LOGGER.info("Player yaw: {}", player.getYaw());
 			stack.decrement(1);
@@ -35,10 +35,11 @@ public class StatueItem extends Item {
 
 	}
 
-	private void spawnStatue(World world, BlockPos blockPos, PlayerEntity player, ItemStack stack) {
+	private void spawnStatue(World world, BlockPos blockPos, PlayerEntity player, ItemStack stack, String name) {
 		StatueEntity statue = new StatueEntity(ModEntities.STATUE, world);
 		statue.refreshPositionAndAngles(blockPos.up(1), player.getYaw() + 180, 0);
 		statue.setOwner(player.getUuid());
+		statue.setStatueName(name);
 
 		world.spawnEntity(statue);
 	}
