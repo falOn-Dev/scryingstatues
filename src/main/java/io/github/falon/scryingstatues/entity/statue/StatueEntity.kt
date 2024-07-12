@@ -1,6 +1,5 @@
 package io.github.falon.scryingstatues.entity.statue
 
-import io.github.falon.scryingstatues.ScryingStatues
 import io.github.falon.scryingstatues.item.ScryingMirrorItem
 import io.github.falon.scryingstatues.item.ShattererItem
 import net.minecraft.block.Blocks
@@ -46,12 +45,7 @@ class StatueEntity(variant: EntityType<*>?, world: World?) : Entity(variant, wor
 
     override fun interact(player: PlayerEntity, hand: Hand): ActionResult {
         val stack = player.getStackInHand(hand)
-        ScryingStatues.LOGGER.info("isScryable: {}", isScryable)
         if (stack.item is ShattererItem) {
-            player.playSound(SoundEvents.BLOCK_STONE_PLACE, 1.0f, 1.0f)
-
-            ScryingStatues.LOGGER.info("Shattering entity: {}", this.toString())
-
             getDataTracker().set(HEALTH, getDataTracker().get(HEALTH) - 1)
             world.addBlockBreakParticles(BlockPos.create(this.x, this.y, this.z), Blocks.STONE.defaultState)
 
@@ -63,15 +57,23 @@ class StatueEntity(variant: EntityType<*>?, world: World?) : Entity(variant, wor
             }
 
             if (getDataTracker().get(HEALTH) <= 0) {
+                player.playSound(SoundEvents.BLOCK_POINTED_DRIPSTONE_BREAK, 1.0f, 1f)
                 this.remove(RemovalReason.KILLED)
                 this.dropStack(ItemStack(Items.STONE, 3))
+            } else {
+                player.playSound(SoundEvents.BLOCK_STONE_PLACE, 1.0f, 1f)
             }
 
             return ActionResult.SUCCESS
         } else if (stack.item is ScryingMirrorItem) {
-            if (owner.isPresent && player.isSneaking) {
+            if (!owner.isPresent || owner.get() != player.uuid) {
+                player.sendMessage(Text.translatable("item.scryingstatues.scrying_mirror.doesnt_belong"), true)
+                return ActionResult.PASS
+            } else if (player.isSneaking) {
                 stack.getOrCreateNbt().putUuid("target", this.getUuid())
+                stack.getOrCreateNbt().putString("display_name", statueName)
                 player.sendMessage(Text.translatable("item.scryingstatues.scrying_mirror.set_message"), true)
+                player.playSound(SoundEvents.BLOCK_AMETHYST_BLOCK_RESONATE)
 
                 return ActionResult.SUCCESS
             }

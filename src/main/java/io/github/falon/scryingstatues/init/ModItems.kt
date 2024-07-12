@@ -4,7 +4,9 @@ import io.github.falon.scryingstatues.ScryingStatues
 import io.github.falon.scryingstatues.item.ScryingMirrorItem
 import io.github.falon.scryingstatues.item.ShattererItem
 import io.github.falon.scryingstatues.item.StatueItem
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroups
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
@@ -33,5 +35,11 @@ object ModItems {
                 )
             },
         )
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS_AND_UTILITIES).register { entries ->
+            items.keys.forEach {
+                entries.addItem(it)
+            }
+        }
     }
 }

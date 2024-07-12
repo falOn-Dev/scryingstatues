@@ -13,12 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
-	@Shadow
-	@Final
-	public GameOptions options;
+  @Shadow @Final public GameOptions options;
 
-	@Inject(method = "setCameraEntity", at = @At("HEAD"))
-	private void setCameraEntity(Entity entity, CallbackInfo ci) {
-		this.options.hudHidden = entity instanceof StatueEntity;
-	}
+  @Inject(method = "setCameraEntity", at = @At("HEAD"))
+  private void setCameraEntity(Entity entity, CallbackInfo ci) {
+    this.options.hudHidden = entity instanceof StatueEntity;
+  }
 }

@@ -10,7 +10,7 @@ import net.minecraft.recipe.RecipeCategory
 import net.minecraft.util.Identifier
 import java.util.function.Consumer
 
-class RecipeProvider(output: FabricDataOutput?) : FabricRecipeProvider(output) {
+class RecipeProvider(output: FabricDataOutput) : FabricRecipeProvider(output) {
     override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
         ShapedRecipeJsonFactory.create(RecipeCategory.DECORATIONS, ModItems.STATUE, 1)
             .pattern("SES")
@@ -32,5 +32,15 @@ class RecipeProvider(output: FabricDataOutput?) : FabricRecipeProvider(output) {
             .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
             .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
             .offerTo(exporter, Identifier(getRecipeName(ModItems.SHATTERER)))
+
+        ShapedRecipeJsonFactory.create(RecipeCategory.TOOLS, ModItems.SCRYING_MIRROR, 1)
+            .pattern("IGI")
+            .pattern("GEG")
+            .pattern("IGI")
+            .ingredient('I', Items.IRON_INGOT)
+            .ingredient('G', Items.GLASS_PANE)
+            .ingredient('E', Items.ENDER_EYE)
+            .criterion(hasItem(Items.ENDER_EYE), conditionsFromItem(Items.ENDER_EYE))
+            .offerTo(exporter, Identifier(getRecipeName(ModItems.SCRYING_MIRROR)))
     }
 }
