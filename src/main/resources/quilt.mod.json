@@ -1,39 +1,52 @@
 {
-    "schema_version": 1,
-    "quilt_loader": {
-        "group": "${group}",
-        "id": "scryingstatues",
-        "version": "${version}",
-        "metadata": {
-            "name": "Scrying Statues",
-            "description": "Spy on your enemies with stone sculptures! A vaguely magical security system.",
-            "contributors": {
-                "FalOn": "Owner"
-            },
-            "contact": {},
-            "icon": "assets/example_mod/icon.png",
-            "license": "MIT"
-        },
-        "intermediate_mappings": "net.fabricmc:intermediary",
-        "entrypoints": {
-            "init": "io.github.falon.scryingstatues.ScryingStatues",
-						"fabric-datagen": "io.github.falon.scryingstatues.ModDataGenerator",
-						"client": "io.github.falon.scryingstatues.ScryingStatuesClient"
-        },
-        "depends": [
-            {
-                "id": "quilt_loader",
-                "versions": ">=0.19.1"
-            },
-            {
-                "id": "quilted_fabric_api",
-                "versions": ">=7.0.2"
-            },
-            {
-                "id": "minecraft",
-                "versions": ">=1.20"
-            }
-        ]
-    },
-    "mixin": "scryingstatues.mixins.json"
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "${group}",
+		"id": "scryingstatues",
+		"version": "${version}",
+		"metadata": {
+			"name": "Scrying Statues",
+			"description": "Spy on your enemies with stone sculptures! A vaguely magical security system.",
+			"contributors": {
+				"FalOn": "Owner"
+			},
+			"contact": {},
+			"icon": "assets/example_mod/icon.png",
+			"license": "MIT"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"init": {
+				"adapter": "kotlin",
+				"value": "io.github.falon.scryingstatues.ScryingStatues"
+			},
+			"fabric-datagen": {
+				"adapter": "kotlin",
+				"value": "io.github.falon.scryingstatues.ModDataGenerator"
+			},
+			"client_init": {
+				"adapter": "kotlin",
+				"value": "io.github.falon.scryingstatues.ScryingStatuesClient"
+			}
+		},
+		"depends": [
+			{
+				"id": "quilt_loader",
+				"versions": ">=0.19.1"
+			},
+			{
+				"id": "quilted_fabric_api",
+				"versions": ">=7.0.2"
+			},
+			{
+				"id": "minecraft",
+				"versions": ">=1.20"
+			},
+			{
+				"id": "fabric-language-kotlin",
+				"versions": ">=1.10.8+kotlin.1.9.0"
+			}
+		]
+	},
+	"mixin": "scryingstatues.mixins.json"
 }

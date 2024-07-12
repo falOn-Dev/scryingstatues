@@ -1,5 +1,7 @@
-// 1.20.1	2024-07-07T10:14:03.2515687	Scrying Statues/Recipes
+// 1.20.1	2024-07-12T00:22:58.72537	Scrying Statues/Recipes
 59edc9b0ec2de813d2508ed06893cb236657fee1 data\scryingstatues\recipes\shatterer.json
+815aa6db14dedabf20fa49cd1fd4672748e33d83 data\scryingstatues\advancements\recipes\tools\scrying_mirror.json
 c3f97681a5d5467646e8f9f50c984f88768bdaf6 data\scryingstatues\recipes\statue.json
 402daded2f66954722e4d495cd57d685709ef682 data\scryingstatues\advancements\recipes\decorations\statue.json
 6b66faa4da5f996f0b53ec1c4ff62be00b7cf82b data\scryingstatues\advancements\recipes\tools\shatterer.json
+9fc6056485034eb291249b90be5aa9d8cc21a43b data\scryingstatues\recipes\scrying_mirror.json

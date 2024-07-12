@@ -5,6 +5,9 @@
   "item.scryingstatues.scrying_mirror.clear_message": "Cleared scrying target.",
   "item.scryingstatues.scrying_mirror.set_message": "Scrying mirror has been bound.",
   "item.scryingstatues.scrying_mirror.unreachable": "Bound statue is unreachable.",
+  "item.scryingstatues.scrying_mirror.doesnt_belong": "You do not own this statue.",
+
+  "item.scryingstatues.scrying_bowl.append_message": "Added target to scrying bowl",
 
   "itemGroup.scryingstatues.scrying_statues_group": "Scrying Statues"
 
